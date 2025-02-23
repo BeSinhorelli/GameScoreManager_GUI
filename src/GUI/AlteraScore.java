@@ -73,7 +73,7 @@ private void alterarScore() {
     ArrayList<Score> scores = scoreDAO.listarTodos();
     String msg = "";
     for (Score s : scores) {
-        msg += s.getId_score() + "";
+        msg += s.getId_score() + " | ";
     }
     String idsMsg = msg;
     String inputId = JOptionPane.showInputDialog(this, 
