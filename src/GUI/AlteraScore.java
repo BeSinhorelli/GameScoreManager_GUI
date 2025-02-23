@@ -71,44 +71,50 @@ public class AlteraScore extends javax.swing.JFrame {
 private void alterarScore() {
     ScoreDAO scoreDAO = new ScoreDAO();
     ArrayList<Score> scores = scoreDAO.listarTodos();
-    String msg= "";
+    StringBuilder msgBuilder = new StringBuilder();
     for (Score s : scores) {
-        msg += s.getId_score() + "|";
+        msgBuilder.append(s.getId_score()).append("|");
     }
-    String idsMsg = msg;
+    String idsMsg = msgBuilder.toString();
     String inputId = JOptionPane.showInputDialog(this, 
             "Digite o ID do score que deseja alterar:\nIDs Disponíveis:\n" + idsMsg);
-    if (inputId == null || inputId.isEmpty()) {
+    if (inputId == null || inputId.trim().isEmpty()) {
         JOptionPane.showMessageDialog(this, "ID não informado.");
         return;
     }
     
     int id;
     try {
-        id = Integer.parseInt(inputId);
+        id = Integer.parseInt(inputId.trim());
     } catch (NumberFormatException ex) {
         JOptionPane.showMessageDialog(this, "ID inválido!");
         return;
     }
+    
+    // Busca o score pelo ID e valida se foi encontrado
     Score score = scoreDAO.procurar2(id);
     if (score == null) {
         JOptionPane.showMessageDialog(this, "Score não encontrado para o ID: " + id);
         return;
     }
+    
+    // Solicita o novo score, exibindo o valor atual como sugestão
     String novoScoreStr = JOptionPane.showInputDialog(this, 
             "Score Atual: " + score.getScore() + "\nDigite o novo score:", score.getScore());
-    if (novoScoreStr == null || novoScoreStr.isEmpty()) {
+    if (novoScoreStr == null || novoScoreStr.trim().isEmpty()) {
         JOptionPane.showMessageDialog(this, "Novo score não informado.");
         return;
     }
     
     int novoScore;
     try {
-        novoScore = Integer.parseInt(novoScoreStr);
+        novoScore = Integer.parseInt(novoScoreStr.trim());
     } catch (NumberFormatException ex) {
         JOptionPane.showMessageDialog(this, "Novo score inválido!");
         return;
     }
+    
+    // Formata e exibe a data atual, e solicita a nova data
     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
     String dataAtualFormatada = (score.getData() != null) ? sdf.format(score.getData()) : "";
     String novaDataStr = JOptionPane.showInputDialog(this, 
@@ -120,7 +126,7 @@ private void alterarScore() {
     
     java.util.Date novaData;
     try {
-        novaData = sdf.parse(novaDataStr);
+        novaData = sdf.parse(novaDataStr.trim());
     } catch (ParseException ex) {
         JOptionPane.showMessageDialog(this, "Data inválida. Por favor, utilize o formato dd/MM/yyyy.");
         return;

@@ -16,6 +16,8 @@ public class ScorePlayerJogoDAO {
             System.out.println("Erro ao estabelecer conexão com o banco: " + e.getMessage());
         }
     }
+
+    // Método para listar todos os registros de ScorePlayerJogo
     public ArrayList<ScorePlayerJogo> listarTodos() {
         PreparedStatement ps = null;
         Connection connL = null;
@@ -26,14 +28,18 @@ public class ScorePlayerJogoDAO {
             // Consulta SQL para listar todos os registros da tabela score
             String SQL = "SELECT id_score, id_game, id_player, score, data FROM score";
             connL = this.conn;
+
             ps = connL.prepareStatement(SQL);
             rs = ps.executeQuery();
+
+            // Iterando sobre o ResultSet e criando objetos ScorePlayerJogo
             while (rs.next()) {
                 int idScore = rs.getInt("id_score");
                 int idGame = rs.getInt("id_game");
                 int idPlayer = rs.getInt("id_player");
                 int score = rs.getInt("score");
                 Date data = rs.getDate("data");
+                // Criando um novo ScorePlayerJogo e adicionando à lista
                 ScorePlayerJogo scorePlayer = new ScorePlayerJogo(idScore, idGame, idPlayer, score, data);
                 listaScores.add(scorePlayer);
             }

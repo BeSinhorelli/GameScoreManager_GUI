@@ -181,9 +181,9 @@ public class InserirScore extends javax.swing.JFrame {
     }//GEN-LAST:event_BT_cancelarActionPerformed
 
     private void CB_clienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_clienteItemStateChanged
-         posi = CB_cliente.getSelectedIndex(); 
-    if (posi >= 0 && posi < players.size()) { 
-        id = players.get(posi).getId_player(); 
+         posi = CB_cliente.getSelectedIndex(); // Obter índice correto
+    if (posi >= 0 && posi < players.size()) { // Validar índice
+        id = players.get(posi).getId_player(); // Associar ID correto
     }
     }//GEN-LAST:event_CB_clienteItemStateChanged
 
@@ -235,6 +235,7 @@ public class InserirScore extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void carregaComboJogos() {
+        //try {
         CB_veiculo.removeAllItems();
         JogoDAO vDAO = new JogoDAO();
        jogos = vDAO.listar();
