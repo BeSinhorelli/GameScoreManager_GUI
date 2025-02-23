@@ -90,12 +90,8 @@ public class JogoDAO {
 
     try (PreparedStatement psScores = conn.prepareStatement(deleteScores);
          PreparedStatement psPlayer = conn.prepareStatement(deletePlayer)) {
-
-        // Exclui registros na tabela score
         psScores.setInt(1, player.getId_game());
         psScores.executeUpdate();
-
-        // Exclui o player
         psPlayer.setInt(1, player.getId_game());
         psPlayer.executeUpdate();
 
