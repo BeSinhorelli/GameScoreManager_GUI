@@ -110,7 +110,7 @@ private void alterarScore() {
         return;
     }
     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-    String dataAtualFormatada = (score.getData() != null) ? sdf.format(score.getData()) : "";
+    String dataAtualFormatada = sdf.format(score.getData());
     String novaDataStr = JOptionPane.showInputDialog(this, 
             "Data Atual: " + dataAtualFormatada + "\nDigite a nova data (dd/MM/yyyy):", dataAtualFormatada);
     if (novaDataStr == null || novaDataStr.isEmpty()) {
