@@ -133,13 +133,13 @@ public class ListarJogo extends javax.swing.JFrame {
         carrega();
     }//GEN-LAST:event_formComponentShown
     public static void carregaCombo() {
-        COMBO.removeAllItems(); // Limpa os itens anteriores
+        COMBO.removeAllItems();
         JogoDAO vDAO = new JogoDAO();
         jogos = vDAO.listar(); 
 
         if (jogos != null && !jogos.isEmpty()) {
             for (Jogo v : jogos) {
-                COMBO.addItem(String.valueOf(v.getId_game()));
+                COMBO.addItem(String.valueOf(v.getId_game())); //converte o int para String 
             }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum jogo encontrado!");
@@ -150,9 +150,8 @@ public class ListarJogo extends javax.swing.JFrame {
         JogoDAO vDAO = new JogoDAO();
         J = vDAO.procurar(id);
         if (J != null) {
-            // Preenche os campos com os dados do veículo
-            jTextField1.setText(J.getNome() != null ? J.getNome() : "");
-            jTextField2.setText(J.getTipo() != null ? J.getTipo() : "");
+            jTextField1.setText(J.getNome());
+            jTextField2.setText(J.getTipo());
         } else {
             JOptionPane.showMessageDialog(this, "Jogo não encontrado!");
         }

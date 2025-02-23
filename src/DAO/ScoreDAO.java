@@ -36,7 +36,7 @@ public class ScoreDAO {
 
         try {
             Connection conn = Conexao.getConnection();
-            String sql = "SELECT * FROM Score"; // Seleciona todos os campos
+            String sql = "SELECT * FROM Score";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
@@ -48,7 +48,7 @@ public class ScoreDAO {
                 Date date = rs.getDate("data");
                 if (date != null) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    dateFormat.format(date); // Converte para formato dd/MM/yyyy
+                    dateFormat.format(date); 
                     score.setData(date);
                 } else {
                    JOptionPane.showMessageDialog(null, "erro");
