@@ -15,10 +15,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 
-/**
- *
- * @author 275158
- */
 
 public class ScorePlayerDAO {
 
@@ -166,24 +162,17 @@ public class ScorePlayerDAO {
     ArrayList<ScorePlayer> listaScores = new ArrayList<>();
 
     try {
-        // Consulta para selecionar todos os registros da tabela score
         String SQL = "SELECT id_score, id_player, data, score FROM score";
         connL = this.conn;
-
         ps = connL.prepareStatement(SQL);
         rs = ps.executeQuery();
-
-        // Percorre o ResultSet e adiciona os dados na lista
         while (rs.next()) {
             int idScore = rs.getInt("id_score");
             int idPlayer = rs.getInt("id_player");
             Date data = rs.getDate("data");
             int score = rs.getInt("score");
-
-            // Adiciona o ScorePlayer à lista
             listaScores.add(new ScorePlayer(idScore, idPlayer, data, score));
         }
-
     } catch (SQLException sqle) {
         System.out.println("Erro ao listar scores: " + sqle.getMessage());
     } finally {
