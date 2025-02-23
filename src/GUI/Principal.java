@@ -363,8 +363,6 @@ public class Principal extends javax.swing.JFrame {
             document.add(new Paragraph("Segue abaixo os dados:\n"));
             document.add(new Paragraph("\n======================================\n"));
             document.add(new Paragraph("Players:\n"));
-
-            // Tenta buscar os dados do banco
             playerDAO playerDao = new playerDAO();
             ArrayList<Player> jogadores;
             try {

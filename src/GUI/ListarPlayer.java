@@ -164,10 +164,10 @@ public class ListarPlayer extends javax.swing.JFrame {
 
     private void COMBOItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_COMBOItemStateChanged
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-            posicao = COMBO.getSelectedIndex(); // Obtém a posição selecionada no combo
-            if (posicao >= 0 && posicao < players.size()) { // Verifica se o índice é válido
-                id = players.get(posicao).getId_player(); // Define o ID do cliente selecionado
-                carrega(); // Carrega os dados do cliente selecionado
+            posicao = COMBO.getSelectedIndex(); 
+            if (posicao >= 0 && posicao < players.size()) { 
+                id = players.get(posicao).getId_player(); 
+                carrega(); 
             } else {
                 JOptionPane.showMessageDialog(this, "Player inválido selecionado!");
             }
@@ -203,10 +203,9 @@ public class ListarPlayer extends javax.swing.JFrame {
             playerDAO cDAO = new playerDAO();
             P = cDAO.procurar(id);
             if (P != null) {
-                // Preenche os campos com os dados do cliente
-                jTextField1.setText(P.getNickname() != null ? P.getNickname() : "");
-                jTextField2.setText(P.getPlataforma() != null ? P.getPlataforma() : "");
-                jTextField4.setText(P.getEmail() != null ? P.getEmail() : "");
+                jTextField1.setText(P.getNickname());
+                jTextField2.setText(P.getPlataforma());
+                jTextField4.setText(P.getEmail());
             } else {
               JOptionPane.showMessageDialog(this, "Player não encontrado!");
             }

@@ -150,9 +150,8 @@ public class ListarJogo extends javax.swing.JFrame {
         JogoDAO vDAO = new JogoDAO();
         J = vDAO.procurar(id);
         if (J != null) {
-            // Preenche os campos com os dados do veículo
-            jTextField1.setText(J.getNome() != null ? J.getNome() : "");
-            jTextField2.setText(J.getTipo() != null ? J.getTipo() : "");
+            jTextField1.setText(J.getNome());
+            jTextField2.setText(J.getTipo());
         } else {
             JOptionPane.showMessageDialog(this, "Jogo não encontrado!");
         }
