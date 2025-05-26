@@ -36,7 +36,7 @@ public class ScoreDAO {
 
         try {
             Connection conn = Conexao.getConnection();
-            String sql = "SELECT * FROM Score"; // Seleciona todos os campos
+            String sql = "SELECT * FROM score"; // Seleciona todos os campos
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
