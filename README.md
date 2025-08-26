@@ -24,10 +24,11 @@ O objetivo do sistema é **gerenciar jogos, players e scores** de forma simples 
 ![Tela 2](https://github.com/user-attachments/assets/a76d71c5-ecfe-43cb-b36e-e30033abdd5d)  
 
 ### 📊 Telas de Salvamento do PDF
-<p align="center">
+<p align="left">
   <img src="https://github.com/user-attachments/assets/22a6afdf-38be-4a17-826d-9fcff14efd5d" width="40%"/>
-  <img src="https://github.com/user-attachments/assets/5ff7170c-bf1d-4101-95a1-1a9c8a6c0099" width="50%"/>
+  <img src="https://github.com/user-attachments/assets/5ff7170c-bf1d-4101-95a1-1a9c8a6c0099" width="40%"/>
 </p>
+
 
 ---
 
