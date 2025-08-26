@@ -44,6 +44,7 @@ O objetivo do sistema é **gerenciar jogos, players e scores** de forma simples 
 ---
 
 ## 🚀 Como Executar
-1. Clone este repositório:  
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
+1. Clone este repositório:
+```
+git clone https://github.com/BeSinhorelli/SistemaDePontuacaoDeJogos_GUI.git
+
