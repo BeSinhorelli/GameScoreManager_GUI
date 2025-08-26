@@ -1,4 +1,4 @@
-# 🎮 Sistema de Pontuação de Jogos - GUI
+<h1 align="center">🎮 Sistema de Pontuação de Jogos - GUI</h1>
 
 Sistema desenvolvido em **Java** com interface gráfica **Swing/JFrame**, criado como **TCC da disciplina de Programação Orientada a Objetos 2** do curso técnico em Informática.  
 
