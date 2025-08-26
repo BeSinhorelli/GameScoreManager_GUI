@@ -29,7 +29,7 @@ O objetivo do sistema é **gerenciar jogos, players e scores** de forma simples 
 
 ---
 
-### 🗄️ Modelo do fisico Banco de Dados
+### 🗄️ Modelo fisico do Banco de Dados
 ![Banco](https://github.com/user-attachments/assets/98c8a80e-6a95-4ffe-8100-317918ced031)  
 
 
