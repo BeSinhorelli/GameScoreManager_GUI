@@ -1,4 +1,4 @@
-<h1 align="center">🎮 GameManager em GUI</h1>
+<h1 align="center">🎮 GameScoreManager</h1>
 
 Sistema desenvolvido em **Java** com interface gráfica **Swing/JFrame**, criado como **TCC da disciplina de Programação Orientada a Objetos 2** do curso técnico em Informática.  
 
