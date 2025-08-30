@@ -327,7 +327,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        JFrame Lista = new AlteraScore();
+        JFrame Lista = new AlteraScore2();
         Lista.setLocationRelativeTo(rootPane);
         Lista.setVisible(true);
     }//GEN-LAST:event_jMenuItem13ActionPerformed
