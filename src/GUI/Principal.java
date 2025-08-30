@@ -4,7 +4,14 @@
  * and open the template in the editor.
  */
 package GUI;
-
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import Classes.Score;
 import java.util.ArrayList;
 import Classes.Jogo;
@@ -333,106 +340,314 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jToggleButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton2MouseClicked
-        Document document = new Document();
-        String msg = "", d = "";
-        String msgs = "", msgj = "", msgp = "";
+
         try {
-            msg = JOptionPane.showInputDialog(null, "Digite o nome do PDF\n");
-            if (msg == null || msg.isEmpty()) {
+            // Solicitar nome do arquivo
+            String nomeArquivo = JOptionPane.showInputDialog(null, "Digite o nome do relatório PDF:");
+            if (nomeArquivo == null || nomeArquivo.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Erro: nome do arquivo inválido!");
                 return;
             }
+
+            // Selecionar diretório para salvar
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Escolha o diretório para salvar o PDF");
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
             int userSelection = fileChooser.showSaveDialog(null);
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File selectedDir = fileChooser.getSelectedFile();
-                d = selectedDir.getAbsolutePath();
-            } else {
+            if (userSelection != JFileChooser.APPROVE_OPTION) {
                 JOptionPane.showMessageDialog(null, "Operação cancelada pelo usuário.");
                 return;
             }
-            if (!d.endsWith(File.separator)) {
-                d += File.separator;
-            }
-            msg += ".pdf";
-            PdfWriter.getInstance(document, new FileOutputStream(new File(d, msg)));
+
+            File diretorio = fileChooser.getSelectedFile();
+            String caminhoCompleto = diretorio.getAbsolutePath() + File.separator + nomeArquivo + ".pdf";
+
+            // Criar documento PDF
+            Document document = new Document(PageSize.A4);
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(caminhoCompleto));
+            
+            // Adicionar cabeçalho e rodapé personalizados
+            writer.setPageEvent(new HeaderFooterPageEvent());
+            
             document.open();
-            document.add(new Paragraph("Segue abaixo os dados:\n"));
-            document.add(new Paragraph("\n======================================\n"));
-            document.add(new Paragraph("Players:\n"));
+
+            // Configurações de estilo
+            Font tituloFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY);
+            Font subtituloFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, BaseColor.DARK_GRAY);
+            Font cabecalhoFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
+            Font textoFont = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
+            Font pequenoFont = new Font(Font.FontFamily.HELVETICA, 8, Font.ITALIC, BaseColor.GRAY);
+
+            // Título principal
+            Paragraph titulo = new Paragraph("RELATÓRIO COMPLETO DO SISTEMA", tituloFont);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            titulo.setSpacingAfter(20);
+            document.add(titulo);
+
+            // Data de geração
+            Paragraph dataGeracao = new Paragraph(
+                "Gerado em: " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()), 
+                pequenoFont
+            );
+            dataGeracao.setAlignment(Element.ALIGN_CENTER);
+            dataGeracao.setSpacingAfter(30);
+            document.add(dataGeracao);
+
+            // =============== PLAYERS ===============
+            document.add(criarSecao("JOGADORES CADASTRADOS", subtituloFont));
+            
             playerDAO playerDao = new playerDAO();
             ArrayList<Player> jogadores;
             try {
                 jogadores = playerDao.listar();
             } catch (Exception e) {
                 jogadores = new ArrayList<>();
-                document.add(new Paragraph("Não foi possível carregar os jogadores (Banco de dados indisponível).\n\n"));
+                document.add(new Paragraph("Não foi possível carregar os jogadores.\nErro: " + e.getMessage(), textoFont));
             }
 
             if (jogadores.isEmpty()) {
-                document.add(new Paragraph("Nenhum jogador encontrado.\n"));
+                document.add(new Paragraph("Nenhum jogador encontrado.", textoFont));
             } else {
+                // Tabela de players
+                PdfPTable tabelaPlayers = new PdfPTable(4);
+                tabelaPlayers.setWidthPercentage(100);
+                tabelaPlayers.setSpacingBefore(10);
+                tabelaPlayers.setSpacingAfter(20);
+
+                // Cabeçalho da tabela
+                adicionarCelulaCabecalho(tabelaPlayers, "ID", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaPlayers, "Nickname", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaPlayers, "Plataforma", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaPlayers, "Email", cabecalhoFont);
+
+                // Dados dos players
                 for (Player player : jogadores) {
-                    msgp += "ID: " + player.getId_player() + "\nNickname: " + player.getNickname()
-                            + "\nPlataforma: " + player.getPlataforma() + "\nEmail: " + player.getEmail() + "\n\n";
+                    adicionarCelula(tabelaPlayers, String.valueOf(player.getId_player()), textoFont);
+                    adicionarCelula(tabelaPlayers, player.getNickname(), textoFont);
+                    adicionarCelula(tabelaPlayers, player.getPlataforma(), textoFont);
+                    adicionarCelula(tabelaPlayers, player.getEmail(), textoFont);
                 }
+
+                document.add(tabelaPlayers);
+                document.add(new Paragraph("Total de jogadores: " + jogadores.size(), pequenoFont));
             }
-            document.add(new Paragraph(msgp));
 
-            document.add(new Paragraph("\n======================================\n"));
-            document.add(new Paragraph("Jogos:\n"));
+            // Quebra de página
+            document.newPage();
 
+            // =============== JOGOS ===============
+            document.add(criarSecao("JOGOS CADASTRADOS", subtituloFont));
+            
             JogoDAO jogoDao = new JogoDAO();
             ArrayList<Jogo> jogos;
             try {
                 jogos = jogoDao.listar();
             } catch (Exception e) {
                 jogos = new ArrayList<>();
-                document.add(new Paragraph("Não foi possível carregar os jogos (Banco de dados indisponível).\n\n"));
+                document.add(new Paragraph("Não foi possível carregar os jogos.\nErro: " + e.getMessage(), textoFont));
             }
 
             if (jogos.isEmpty()) {
-                document.add(new Paragraph("Nenhum jogo encontrado.\n"));
+                document.add(new Paragraph("Nenhum jogo encontrado.", textoFont));
             } else {
-                for (Jogo games : jogos) {
-                    msgj += "ID: " + games.getId_game() + "\nJogo: " + games.getNome() + "\nTipo: " + games.getTipo() + "\n\n";
+                // Tabela de jogos
+                PdfPTable tabelaJogos = new PdfPTable(3);
+                tabelaJogos.setWidthPercentage(100);
+                tabelaJogos.setSpacingBefore(10);
+                tabelaJogos.setSpacingAfter(20);
+
+                adicionarCelulaCabecalho(tabelaJogos, "ID", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaJogos, "Nome do Jogo", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaJogos, "Tipo", cabecalhoFont);
+
+                for (Jogo jogo : jogos) {
+                    adicionarCelula(tabelaJogos, String.valueOf(jogo.getId_game()), textoFont);
+                    adicionarCelula(tabelaJogos, jogo.getNome(), textoFont);
+                    adicionarCelula(tabelaJogos, jogo.getTipo(), textoFont);
                 }
+
+                document.add(tabelaJogos);
+                document.add(new Paragraph("Total de jogos: " + jogos.size(), pequenoFont));
             }
-            document.add(new Paragraph(msgj));
 
-            document.add(new Paragraph("\n======================================\n"));
-            document.add(new Paragraph("Scores:\n"));
+            // Quebra de página
+            document.newPage();
 
+            // =============== SCORES ===============
+            document.add(criarSecao("SCORES REGISTRADOS", subtituloFont));
+            
             ScorePlayerJogoDAO scoreDao = new ScorePlayerJogoDAO();
             ArrayList<ScorePlayerJogo> scores;
             try {
                 scores = scoreDao.listarTodos();
             } catch (Exception e) {
                 scores = new ArrayList<>();
-                document.add(new Paragraph("Não foi possível carregar os scores (Banco de dados indisponível).\n\n"));
+                document.add(new Paragraph("Não foi possível carregar os scores.\nErro: " + e.getMessage(), textoFont));
             }
 
             if (scores.isEmpty()) {
-                document.add(new Paragraph("Nenhum score encontrado.\n"));
+                document.add(new Paragraph("Nenhum score encontrado.", textoFont));
             } else {
+                // Tabela de scores
+                PdfPTable tabelaScores = new PdfPTable(5);
+                tabelaScores.setWidthPercentage(100);
+                tabelaScores.setSpacingBefore(10);
+                tabelaScores.setSpacingAfter(20);
+
+                adicionarCelulaCabecalho(tabelaScores, "ID Score", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaScores, "ID Jogo", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaScores, "ID Player", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaScores, "Score", cabecalhoFont);
+                adicionarCelulaCabecalho(tabelaScores, "Data", cabecalhoFont);
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                for (ScorePlayerJogo sc : scores) {
-                    String dataFormatada = (sc.getData() != null) ? dateFormat.format(sc.getData()) : "Data não disponível";
-                    msgs += "ID do score: " + sc.getId_score() + "\nID do jogo: " + sc.getId_game()
-                            + "\nID do player: " + sc.getId_player() + "\nScore: " + sc.getScore()
-                            + "\nData: " + dataFormatada + "\n\n";
+                for (ScorePlayerJogo score : scores) {
+                    adicionarCelula(tabelaScores, String.valueOf(score.getId_score()), textoFont);
+                    adicionarCelula(tabelaScores, String.valueOf(score.getId_game()), textoFont);
+                    adicionarCelula(tabelaScores, String.valueOf(score.getId_player()), textoFont);
+                    adicionarCelula(tabelaScores, String.valueOf(score.getScore()), textoFont);
+                    
+                    String dataFormatada = (score.getData() != null) ? 
+                        dateFormat.format(score.getData()) : "N/A";
+                    adicionarCelula(tabelaScores, dataFormatada, textoFont);
                 }
+
+                document.add(tabelaScores);
+                document.add(new Paragraph("Total de scores: " + scores.size(), pequenoFont));
             }
-            document.add(new Paragraph(msgs));
-            document.add(new Paragraph("\n======================================\n"));
+
+            // Estatísticas finais
+            Paragraph estatisticas = new Paragraph(
+                "\n\nESTATÍSTICAS GERAIS:\n" +
+                "• Total de Jogadores: " + (jogadores != null ? jogadores.size() : 0) + "\n" +
+                "• Total de Jogos: " + (jogos != null ? jogos.size() : 0) + "\n" +
+                "• Total de Scores: " + (scores != null ? scores.size() : 0),
+                textoFont
+            );
+            document.add(estatisticas);
+
             document.close();
-            JOptionPane.showMessageDialog(null, "PDF gerado com sucesso no diretório:\n" + d);
+
+            JOptionPane.showMessageDialog(null, 
+                "Relatório PDF gerado com sucesso!\n" +
+                "Local: " + caminhoCompleto + "\n" +
+                "Total de páginas: " + writer.getPageNumber());
+
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao gerar o PDF: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, 
+                "Erro ao gerar o PDF: " + e.getMessage(), 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Métodos auxiliares para formatação
+    private Paragraph criarSecao(String titulo, Font font) {
+        Paragraph secao = new Paragraph(titulo, font);
+        secao.setSpacingBefore(20);
+        secao.setSpacingAfter(10);
+        return secao;
+    }
+
+    private void adicionarCelulaCabecalho(PdfPTable tabela, String texto, Font font) {
+        PdfPCell cell = new PdfPCell(new Phrase(texto, font));
+        cell.setBackgroundColor(BaseColor.DARK_GRAY);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setPadding(5);
+        tabela.addCell(cell);
+    }
+
+    private void adicionarCelula(PdfPTable tabela, String texto, Font font) {
+        PdfPCell cell = new PdfPCell(new Phrase(texto, font));
+        cell.setPadding(5);
+        tabela.addCell(cell);
+    }
+
+    // Classe para cabeçalho e rodapé personalizados
+    class HeaderFooterPageEvent extends PdfPageEventHelper {
+        private PdfTemplate template;
+        private Image logo;
+
+        @Override
+        public void onOpenDocument(PdfWriter writer, Document document) {
+            template = writer.getDirectContent().createTemplate(30, 16);
+            try {
+                // Você pode adicionar um logo aqui se quiser
+                // logo = Image.getInstance("path/to/logo.png");
+                // logo.scaleToFit(100, 100);
+            } catch (Exception e) {
+                // Logo não encontrado, continua sem logo
+            }
+        }
+
+        @Override
+        public void onEndPage(PdfWriter writer, Document document) {
+            try {
+                // Cabeçalho
+                PdfPTable header = new PdfPTable(2);
+                header.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
+                header.setLockedWidth(true);
+
+                if (logo != null) {
+                    PdfPCell logoCell = new PdfPCell(logo, false);
+                    logoCell.setBorder(Rectangle.NO_BORDER);
+                    header.addCell(logoCell);
+                } else {
+                    header.addCell(new PdfPCell(new Phrase("")));
+                }
+
+                PdfPCell textCell = new PdfPCell(new Phrase("Sistema de Gerenciamento de Scores", 
+                    new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD)));
+                textCell.setBorder(Rectangle.NO_BORDER);
+                textCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                header.addCell(textCell);
+
+                header.writeSelectedRows(0, -1, document.leftMargin(), 
+                    document.getPageSize().getHeight() - document.topMargin() + 20, 
+                    writer.getDirectContent());
+
+                // Rodapé
+                PdfPTable footer = new PdfPTable(3);
+                footer.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
+                footer.setLockedWidth(true);
+
+                // Data
+                PdfPCell dateCell = new PdfPCell(new Phrase(
+                    new SimpleDateFormat("dd/MM/yyyy").format(new Date()), 
+                    new Font(Font.FontFamily.HELVETICA, 8)));
+                dateCell.setBorder(Rectangle.NO_BORDER);
+                footer.addCell(dateCell);
+
+                // Número da página
+                PdfPCell pageCell = new PdfPCell(new Phrase(
+                    "Página " + writer.getPageNumber() + " de ", 
+                    new Font(Font.FontFamily.HELVETICA, 8)));
+                pageCell.setBorder(Rectangle.NO_BORDER);
+                pageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                footer.addCell(pageCell);
+
+                // Total de páginas
+                PdfPCell totalPagesCell = new PdfPCell(Image.getInstance(template));
+                totalPagesCell.setBorder(Rectangle.NO_BORDER);
+                totalPagesCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                footer.addCell(totalPagesCell);
+
+                footer.writeSelectedRows(0, -1, document.leftMargin(), 
+                    document.bottomMargin() - 10, writer.getDirectContent());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onCloseDocument(PdfWriter writer, Document document) {
+            // Atualizar o template com o número total de páginas
+            ColumnText.showTextAligned(template, Element.ALIGN_LEFT, 
+                new Phrase(String.valueOf(writer.getPageNumber() - 1), 
+                new Font(Font.FontFamily.HELVETICA, 8)), 2, 2, 0);
         }
 
     }//GEN-LAST:event_jToggleButton2MouseClicked
