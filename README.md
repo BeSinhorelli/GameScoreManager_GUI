@@ -21,7 +21,8 @@ O objetivo do sistema é **gerenciar jogos, players e scores** de forma simples 
 ![Tela 1](https://github.com/user-attachments/assets/78596429-6c8e-41f7-8c3b-ce02faa26065)
 
 ### ⚙️ Tela de Configuração do Banco de Dados
-![Tela 2](https://github.com/user-attachments/assets/a76d71c5-ecfe-43cb-b36e-e30033abdd5d)  
+<img width="458" height="325" alt="image" src="https://github.com/user-attachments/assets/201dd454-6cef-4faf-86d5-3e9d099ba37c" />
+
 
 ### 📊 Telas de Salvamento do PDF
 <p align="left">
