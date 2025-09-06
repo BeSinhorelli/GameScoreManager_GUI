@@ -42,7 +42,8 @@ O objetivo do sistema é **gerenciar jogos, players e scores** de forma simples 
 
 ## 🛠️ Tecnologias Utilizadas
 - **Java** (Swing/JFrame)  
-- **MySQL** (XAMPP)  
+- **MySQL** (banco de dados)
+- **XAMPP** (hospedagem do banco)
 - **iText5** (geração de relatórios PDF)  
 - **DateChooser** (seleção de datas)  
 
