@@ -52,5 +52,5 @@ O objetivo do sistema é **gerenciar jogos, players e scores** de forma simples 
 ## 🚀 Como Executar
 1. Clone este repositório:
 ```
-git clone https://github.com/BeSinhorelli/SistemaDePontuacaoDeJogos_GUI.git
+git clone https://github.com/BeSinhorelli/GameScoreManager_GUI.git
 
