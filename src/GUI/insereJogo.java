@@ -10,21 +10,96 @@ import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.awt.*;
+import javax.swing.BorderFactory;
 
 public class insereJogo extends javax.swing.JFrame {
 
     public insereJogo() {
         initComponents();
-        setResizable(false); // Sem tela cheia
-
+        setResizable(false);
+        setTitle("Inserir Jogo - Sistema de Scores");
+        aplicarEstilos();
+        setLocationRelativeTo(null);
     }
 
     insereJogo(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private void aplicarEstilos() {
+        // Fundo da janela
+        getContentPane().setBackground(new Color(245, 245, 245));
+        
+        // Estilo dos labels (texto escuro)
+        jLabel1.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        jLabel1.setForeground(new Color(40, 40, 40));
+        
+        jLabel5.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        jLabel5.setForeground(new Color(40, 40, 40));
+        
+        // Estilo dos campos de texto
+        NO.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        NO.setBackground(Color.WHITE);
+        NO.setForeground(Color.BLACK);
+        NO.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+            BorderFactory.createEmptyBorder(5, 8, 5, 8)
+        ));
+        
+        NA.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        NA.setBackground(Color.WHITE);
+        NA.setForeground(Color.BLACK);
+        NA.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+            BorderFactory.createEmptyBorder(5, 8, 5, 8)
+        ));
+        
+        // Estilo dos botões com texto escuro
+        OK.setBackground(new Color(46, 204, 113)); // Verde
+        OK.setForeground(new Color(40, 40, 40)); // Texto escuro
+        OK.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        OK.setFocusPainted(false);
+        OK.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        OK.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        B1.setBackground(new Color(231, 76, 60)); // Vermelho
+        B1.setForeground(new Color(40, 40, 40)); // Texto escuro
+        B1.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        B1.setFocusPainted(false);
+        B1.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        B1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        // Efeito hover nos botões
+        OK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                OK.setBackground(new Color(40, 180, 100));
+                OK.setForeground(Color.BLACK);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                OK.setBackground(new Color(46, 204, 113));
+                OK.setForeground(new Color(40, 40, 40));
+            }
+        });
+        
+        B1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                B1.setBackground(new Color(210, 60, 45));
+                B1.setForeground(Color.BLACK);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                B1.setBackground(new Color(231, 76, 60));
+                B1.setForeground(new Color(40, 40, 40));
+            }
+        });
+        
+        // Esconder labels não usados
+        jLabel2.setVisible(false);
+        jLabel4.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -36,30 +111,32 @@ public class insereJogo extends javax.swing.JFrame {
         OK = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("INSERIR GAME");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(245, 245, 245));
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel1.setText("Nome:");
 
-        NO.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        NO.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         NO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NOActionPerformed(evt);
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        jLabel4.setText("jLabel4");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel5.setText("Tipo:");
 
-        NA.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        NA.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         NA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NAActionPerformed(evt);
             }
         });
 
-        B1.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        B1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         B1.setText("Cancelar");
         B1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,7 +144,7 @@ public class insereJogo extends javax.swing.JFrame {
             }
         });
 
-        OK.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        OK.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         OK.setText("Salvar");
         OK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -85,78 +162,63 @@ public class insereJogo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel4))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(NO, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(OK, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(NA, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(22, 22, 22)
-                                .addComponent(NA, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(11, 11, 11)
-                                .addComponent(NO, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(52, 52, 52))
+                        .addGap(60, 60, 60)
+                        .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(OK, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(NO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addComponent(jLabel4)
-                .addGap(39, 39, 39)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(OK, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(82, 82, 82))))
+                    .addComponent(jLabel1)
+                    .addComponent(NO, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(NA, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(OK, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+        setSize(480, 320);
+    }// </editor-fold>                        
 
-    private void NOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NOActionPerformed
-
-    }//GEN-LAST:event_NOActionPerformed
-
-    private void NAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NAActionPerformed
+    private void NOActionPerformed(java.awt.event.ActionEvent evt) {                                   
         // TODO add your handling code here:
-    }//GEN-LAST:event_NAActionPerformed
+    }                                  
 
-    private void B1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B1ActionPerformed
+    private void NAActionPerformed(java.awt.event.ActionEvent evt) {                                   
+        // TODO add your handling code here:
+    }                                  
+
+    private void B1ActionPerformed(java.awt.event.ActionEvent evt) {                                   
         dispose();
-    }//GEN-LAST:event_B1ActionPerformed
+    }                                  
 
-    private void OKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OKMouseClicked
+    private void OKMouseClicked(java.awt.event.MouseEvent evt) {                                
         String nome = "", tipo = "";
         if (NO.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Você precisa digitar o nome");
+            JOptionPane.showMessageDialog(rootPane, "Você precisa digitar o nome do jogo!");
         } else if (NA.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Você precisa digitar o tipo");
+            JOptionPane.showMessageDialog(rootPane, "Você precisa digitar o tipo do jogo!");
         } else {
             nome = NO.getText();
             tipo = NA.getText();
@@ -164,17 +226,17 @@ public class insereJogo extends javax.swing.JFrame {
             J.setTipo(tipo);
             JogoDAO JDAO = new JogoDAO();
             JDAO.inserir(J);
-            JOptionPane.showMessageDialog(rootPane, "Inserção efetuada com sucesso!");
+            JOptionPane.showMessageDialog(rootPane, "Jogo inserido com sucesso!");
             dispose();
         }
-    }//GEN-LAST:event_OKMouseClicked
+    }                               
 
-    private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
+    private void OKActionPerformed(java.awt.event.ActionEvent evt) {                                   
         // TODO add your handling code here:
-    }//GEN-LAST:event_OKActionPerformed
+    }                                  
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton B1;
     private javax.swing.JTextField NA;
     private javax.swing.JTextField NO;
@@ -183,6 +245,6 @@ public class insereJogo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
     private Jogo J = new Jogo();
 }
